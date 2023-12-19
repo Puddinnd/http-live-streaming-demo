@@ -1,15 +1,38 @@
 <script lang="ts">
 	import { advanceMode } from '$lib/mode'
+
+  let simepleText = null
+  let addvanceText = null
+
+  $:{
+    if($advanceMode) {
+      /* <!-- Advance mode --> */
+      if (simepleText){
+        simepleText.classList.remove('text-primary')
+        simepleText.classList.add('text-base-300')
+      }
+      if (addvanceText) {
+        addvanceText.classList.remove('text-base-300')
+        addvanceText.classList.add('text-secondary')
+      }
+    }else{
+      /* <!-- Simple mode --> */
+      if (simepleText){
+        simepleText.classList.remove('text-base-300')
+        simepleText.classList.add('text-primary')
+      }
+      if (addvanceText) {
+        addvanceText.classList.remove('text-secondary')
+        addvanceText.classList.add('text-base-300') 
+      }
+    }
+  }
 </script>
 
 <div class="justify-self-end">
   <div class="grid grid-cols-3 gap-0">
     <div class="justify-self-end">
-      {#if $advanceMode}
-        <div class="text-base-300">simple</div>
-      {:else}
-        <div class="text-primary">simple</div>
-      {/if}
+      <div class="text-primary" bind:this={simepleText}>simple</div>
     </div>
     <div class="justify-self-center pt-1">
       <input 
@@ -20,11 +43,7 @@
       />
     </div>
     <div class="justify-self-start">
-      {#if $advanceMode}
-        <div class="text-secondary">advance</div>
-      {:else}
-        <div class="text-base-300">advance</div>
-      {/if}
+      <div class="text-base-300" bind:this={addvanceText}>advance</div>
     </div>
   </div>
 </div>
