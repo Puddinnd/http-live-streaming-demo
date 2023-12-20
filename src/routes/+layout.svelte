@@ -5,7 +5,7 @@
 	import "../app.css";
 </script>
 
-<div class="app" data-theme={$darktheme?'dark':'cupcake'}>
+<div class="app" data-theme={$darktheme?'dark':'emerald'}>
 	
 	<Header />
 	
