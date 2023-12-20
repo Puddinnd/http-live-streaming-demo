@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { fetchPlayList } from '$lib/hls'
+  import { fetchPlayList, fetchPlayListAdvance } from '$lib/hls'
   import { advanceMode } from '$lib/mode'
 
   let fetchButton = null
@@ -28,8 +28,16 @@
       }
     }
   }
+
+  const _fetchPlaylist = () => {
+    if($advanceMode) {
+      return fetchPlayListAdvance()
+    } else {
+      return fetchPlayList()
+    }
+  }
 </script>
 
-<button class="btn btn-sm btn-primary" bind:this={fetchButton} on:click={() => fetchPlayList()} >
+<button class="btn btn-sm btn-primary" bind:this={fetchButton} on:click={() => _fetchPlaylist()} >
   <p class="px-3 font-semibold text-primary-conten" bind:this={fetchText} >fetch !</p>
 </button>

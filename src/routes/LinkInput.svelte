@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { placeholder_link, linkToFile } from '$lib/file'
   import { advanceMode } from '$lib/mode'
+  import HeaderInput from './HeaderInput.svelte'
 
   let linkInput = null
 
@@ -30,4 +31,5 @@
     bind:value={$linkToFile}
     bind:this={linkInput}
   />
+  <HeaderInput />
 </div>

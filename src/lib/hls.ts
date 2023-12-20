@@ -2,16 +2,19 @@ import { writable } from "svelte/store"
 import { get } from "svelte/store"
 import { linkToFile } from '$lib/file'
 import Hls from 'hls.js'
+import { headerList, HeaderInfo } from './httpHeader'
 
 export var videoSrc: string
 export let video_player = writable<HTMLMediaElement>()
 
 export let fetchPlayList = () => {
   videoSrc = get(linkToFile)
-  console.log(`Playing: ${videoSrc}`)
+  console.log(`[Mode:Simple] Playing: ${videoSrc}`)
   var _video_player = get(video_player)
   if (Hls.isSupported()) {
-    var hls = new Hls()
+    var hls = new Hls({
+      xhrSetup: xhr => {xhr.withCredentials = true;}
+    })
     hls.loadSource(videoSrc)
     hls.attachMedia(_video_player)
     hls.on(Hls.Events.MEDIA_ATTACHED, function () {
@@ -33,4 +36,38 @@ export let fetchPlayList = () => {
     })
   }
   return true
-};
+}
+
+export let fetchPlayListAdvance = () => {
+  videoSrc = get(linkToFile)
+  console.log(`[Mode:Advance] Playing: ${videoSrc}`)
+  var _video_player = get(video_player)
+  if (Hls.isSupported()) {
+    var hls = new Hls({
+      xhrSetup: xhr => {
+        xhr.withCredentials = true;
+        let headers = getCustomHeaders()
+        headers.forEach((h: HeaderInfo) => {
+          xhr.setRequestHeader(h.name, h.value)
+        })
+      }
+    })
+    hls.loadSource(videoSrc)
+    hls.attachMedia(_video_player)
+    hls.on(Hls.Events.MEDIA_ATTACHED, function () {
+      _video_player.muted = true
+      _video_player.play()
+    })
+  }
+  else if (_video_player.canPlayType('application/vnd.apple.mpegurl')) {
+    _video_player.src = videoSrc
+    _video_player.addEventListener('canplay', function () {
+      _video_player.play()
+    })
+  }
+  return true
+}
+
+let getCustomHeaders = () => {
+  return get(headerList)
+}

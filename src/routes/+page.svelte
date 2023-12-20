@@ -12,8 +12,8 @@
 </script>
 
 <svelte:head>
-	<title>HLS Demo</title>
-	<meta name="description" content="HLS Demo app" />
+	<title>HLS Demo (m3u8 player)</title>
+	<meta name="or you may know as .m3u8 player" content="HLS Demo app" />
 </svelte:head>
 
 <section>
@@ -27,7 +27,7 @@
 				</div>
 				<!-- Switch Mode Button -->
 				<SwitchModeButton />
-				<!-- Link Input -->
+				<!-- Inputs -->
 				<LinkInput />
 				<!-- Fetch Button -->
 				<div class="col-span-2 justify-self-end">
