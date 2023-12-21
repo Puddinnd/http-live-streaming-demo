@@ -12,9 +12,7 @@ export let fetchPlayList = () => {
   console.log(`[Mode:Simple] Playing: ${videoSrc}`)
   var _video_player = get(video_player)
   if (Hls.isSupported()) {
-    var hls = new Hls({
-      xhrSetup: xhr => {xhr.withCredentials = true;}
-    })
+    var hls = new Hls()
     hls.loadSource(videoSrc)
     hls.attachMedia(_video_player)
     hls.on(Hls.Events.MEDIA_ATTACHED, function () {
@@ -45,7 +43,6 @@ export let fetchPlayListAdvance = () => {
   if (Hls.isSupported()) {
     var hls = new Hls({
       xhrSetup: xhr => {
-        xhr.withCredentials = true;
         let headers = getCustomHeaders()
         headers.forEach((h: HeaderInfo) => {
           xhr.setRequestHeader(h.name, h.value)
